@@ -6,6 +6,9 @@
 # Files for the ART/Dalvik VM
 *.dex
 
+# Release Folder
+app/release
+
 # macOS Files
 .DS_Store
 

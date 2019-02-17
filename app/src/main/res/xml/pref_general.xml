@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+            android:key="current_semester"
+            android:title="Change Semester"
+            android:defaultValue="1"
+            android:entries="@array/semester_entries"
+            android:summary="Current semester is: %s"
+            android:entryValues="@array/semester_values"
+            android:negativeButtonText="Cancel"
+            android:positiveButtonText="OK"/>
+
+</PreferenceScreen>

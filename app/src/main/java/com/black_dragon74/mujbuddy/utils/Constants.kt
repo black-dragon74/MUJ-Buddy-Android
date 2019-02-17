@@ -22,3 +22,51 @@ const val ACCESS_TOKEN = "access_token" // Contains the current token for making
 //  Basic student info container
 //
 const val USER_DATA = "dash_details"
+
+
+//
+//  Attendance container
+//
+const val ATTENDANCE_DATA = "user_attendance"
+
+
+//
+//  Semester container
+//
+const val SEMESTER_DATA = "current_semester"
+
+
+//
+//  GPA container
+//
+const val GPA_DATA = "user_gpa"
+
+
+//
+//  Contacts container
+//
+const val CONTACTS_DATA = "contacts"
+
+
+//
+//  Results container
+//
+const val RESULTS_DATA = "user_results"
+
+
+//
+//  Fee container
+//
+const val FEE_DATA = "user_fee"
+
+
+//
+//  Events container
+//
+const val EVENTS_DATA = "user_events"
+
+
+//
+//  Internals container
+//
+const val INTERNALS_DATA = "user_internals"

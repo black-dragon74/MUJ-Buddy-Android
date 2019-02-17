@@ -7,4 +7,12 @@
         android:layout_height="match_parent"
         tools:context=".InternalsActivity">
 
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorBackground"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" android:scrollbars="vertical"
+            android:id="@+id/internalsRecyclerView"/>
 </android.support.constraint.ConstraintLayout>

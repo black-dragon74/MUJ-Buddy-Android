@@ -1,8 +1,10 @@
 package com.black_dragon74.mujbuddy
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
@@ -45,10 +47,23 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_logout -> {
-                HelperFunctions(this).doLogout()
+                val aBuilder = AlertDialog.Builder(this)
+                aBuilder.setTitle("Logout?")
+                aBuilder.setMessage("Are you sure you want to logout")
+                aBuilder.setPositiveButton("Yes") { dialog, _ ->
+                    dialog.dismiss()
+                    HelperFunctions(this).doLogout()
+                }
+                aBuilder.setNegativeButton("No") {dialog, _ ->
+                    dialog.dismiss()
+                }
+                aBuilder.show()
             }
-            R.id.menu_change_semester -> {
-                Toast.makeText(this, "Changing semester....", Toast.LENGTH_SHORT).show()
+            R.id.menu_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
+            R.id.menu_info -> {
+                startActivity(Intent(this, AboutActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
@@ -63,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 menuUserName.text = dbParsed.admDetails.name
                 menuUserAcadYear.text = dbParsed.admDetails.acadYear
-                menuUserProgram.text = dbParsed.admDetails.program.replace("Computer Applications", "C. A.")
+                menuUserProgram.text = dbParsed.admDetails.program
             }
             return
         }
@@ -88,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread{
                     menuUserName.text = parsed.admDetails.name
                     menuUserAcadYear.text = parsed.admDetails.acadYear
-                    menuUserProgram.text = parsed.admDetails.program.replace("Computer Applications", "C. A.")
+                    menuUserProgram.text = parsed.admDetails.program
                 }
             }
 

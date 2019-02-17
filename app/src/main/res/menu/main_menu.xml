@@ -2,13 +2,22 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:title="Change Semester"
-            android:id="@+id/menu_change_semester"
+            android:title="Settings"
+            android:id="@+id/menu_settings"
+            android:icon="@drawable/ic_settings"
             app:showAsAction="ifRoom"/>
 
     <item
         android:title="Logout"
         android:id="@+id/menu_logout"
+        android:icon="@drawable/ic_exit"
         app:showAsAction="ifRoom"
+    />
+
+    <item
+            android:title="Info"
+            android:id="@+id/menu_info"
+            android:icon="@drawable/ic_info"
+            app:showAsAction="ifRoom"
     />
 </menu>
