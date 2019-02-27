@@ -10,8 +10,8 @@ android {
         applicationId "com.black_dragon74.mujbuddy"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0-alpha"
+        versionCode 11
+        versionName "1.1-alpha"
         project.ext.set("archivesBaseName", "MUJ Buddy - " + versionName)
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
