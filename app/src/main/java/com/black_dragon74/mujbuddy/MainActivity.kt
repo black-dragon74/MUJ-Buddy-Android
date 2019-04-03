@@ -97,12 +97,19 @@ class MainActivity : AppCompatActivity() {
 
                 // Update dash details in the db
                 if (resp != null) {
-                    helper.updateDashInDB(resp)
-                    val parsed = gson.fromJson(resp, DashboardModel::class.java)
-                    runOnUiThread{
-                        menuUserName.text = parsed.admDetails.name
-                        menuUserAcadYear.text = parsed.admDetails.acadYear
-                        menuUserProgram.text = parsed.admDetails.program
+                    try {
+                        val parsed = gson.fromJson(resp, DashboardModel::class.java)
+                        helper.updateDashInDB(resp)
+                        runOnUiThread{
+                            menuUserName.text = parsed.admDetails.name
+                            menuUserAcadYear.text = parsed.admDetails.acadYear
+                            menuUserProgram.text = parsed.admDetails.program
+                        }
+                    }
+                    catch (e: Exception) {
+                        runOnUiThread {
+                            helper.showToast(this@MainActivity, "Unable to get dashboard ")
+                        }
                     }
                 }
             }
