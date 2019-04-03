@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.black_dragon74.mujbuddy.LoginActivity
 import android.view.inputmethod.InputMethodManager
+import com.black_dragon74.mujbuddy.models.User
 
 
 class HelperFunctions(val context: Context) {
@@ -34,8 +35,14 @@ class HelperFunctions(val context: Context) {
         return sharedPref.getBoolean(LOGIN_STATE, false)
     }
 
-    fun getToken(): String? {
-        return sharedPref.getString(ACCESS_TOKEN, null)
+    fun getUserCredentials(): User? {
+        val username = sharedPref.getString(USER_ID,  null)
+        val usertype = sharedPref.getString(USER_TYPE, null)
+
+        return when (username != null && usertype != null) {
+            true -> User(username, usertype)
+            false -> null
+        }
     }
 
     fun doLogout() {

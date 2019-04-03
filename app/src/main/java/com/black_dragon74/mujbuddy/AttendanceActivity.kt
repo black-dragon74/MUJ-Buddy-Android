@@ -76,7 +76,11 @@ class AttendanceActivity : AppCompatActivity() {
 
         // Else we will launch a HTTP request and will return the data from there
         val client = OkHttpClient()
-        val request = Request.Builder().url("${API_URL}attendance?token=${helper.getToken()}").build()
+        val user = helper.getUserCredentials() ?: return
+        val userid = user.username
+        val usertype = user.usertype
+
+        val request = Request.Builder().url("${API_URL}attendance?userid=$userid&usertype=$usertype").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 println("Http request failed")

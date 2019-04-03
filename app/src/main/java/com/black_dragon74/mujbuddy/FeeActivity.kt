@@ -65,7 +65,11 @@ class FeeActivity : AppCompatActivity() {
         }
 
         // Else dispatch the request
-        val request = Request.Builder().url("${API_URL}feedetails?token=${helper.getToken()}").build()
+        val user = helper.getUserCredentials() ?: return
+        val userid = user.username
+        val usertype = user.usertype
+
+        val request = Request.Builder().url("${API_URL}feedetails?userid=$userid&usertype=$usertype").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {

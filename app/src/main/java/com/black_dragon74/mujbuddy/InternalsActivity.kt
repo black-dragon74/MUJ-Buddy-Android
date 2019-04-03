@@ -73,7 +73,11 @@ class InternalsActivity : AppCompatActivity() {
         }
 
         // Else we will send the URL request
-        val request = Request.Builder().url("${API_URL}internals?token=${helper.getToken()}&semester=${helper.getCurrentSemester()}").build()
+        val user = helper.getUserCredentials() ?: return
+        val userid = user.username
+        val usertype = user.usertype
+
+        val request = Request.Builder().url("${API_URL}internals?userid=$userid&usertype=$usertype&semester=${helper.getCurrentSemester()}").build()
 
         // Dispatch the request
         client.newCall(request).enqueue(object: Callback {

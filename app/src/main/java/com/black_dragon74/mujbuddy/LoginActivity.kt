@@ -2,8 +2,10 @@ package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.black_dragon74.mujbuddy.models.LoginResponseModel
 import com.black_dragon74.mujbuddy.utils.*
 import com.google.gson.GsonBuilder
@@ -14,14 +16,28 @@ import java.io.IOException
 class LoginActivity : AppCompatActivity() {
     // Global vars
     private val encryptor = Encryptor()
+    private var parentLogin: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val helper = HelperFunctions(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // If user is logged in and token is there, send directly to the main activity
-        if (helper.isUserLoggedIn() && helper.getToken() != null) {
+        // If the button state is set to on, change the text on the login button accordingly
+        parentLoginSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                loginSubmitBtn.text = "Parent Login"
+                this.parentLogin = true
+            }
+            else {
+                loginSubmitBtn.text = "Student Login"
+                this.parentLogin = false
+            }
+            return@setOnCheckedChangeListener
+        }
+
+        // If user is logged in and credentials are there, send directly to the main activity
+        if (helper.isUserLoggedIn() && helper.getUserCredentials() != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -49,13 +65,10 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Else we will now encrypt the user ID and password and get the token from the API
-            val eUID = encryptor.encrypt(rawUserID.toString())
-            val ePass = encryptor.encrypt(rawPassword.toString())
-
             // Call in the OKHTTP function and send the request
             val client = OkHttpClient()
-            val request = Request.Builder().url("https://dragon.strangebits.co.in/auth?userid=$eUID&password=$ePass").build()
+            val usertype = if (parentLogin) "parent" else "student"
+            val request = Request.Builder().url(API_URL + "auth?userid=$rawUserID&usertype=$usertype").build()
             client.newCall(request).enqueue(object: Callback{
                 override fun onFailure(call: Call, e: IOException) {
                     runOnUiThread{
@@ -66,22 +79,29 @@ class LoginActivity : AppCompatActivity() {
 
                 override fun onResponse(call: Call, response: Response) {
                     val bodyResp = response.body()?.string()
+
+                    // If the login fails, return by showing an error message
+                    if (bodyResp != null) {
+                        val parsedResponse = bodyResp.replace("\n", "")
+                        if (parsedResponse == "false") {
+                            runOnUiThread {
+                                pd.dismiss()
+                                helper.showToast(this@LoginActivity, "Login failed. Please try again.")
+                            }
+                            return
+                        }
+                    }
+
+                    // Else, we continue the normal process
                     runOnUiThread{
                         pd.dismiss()
-                        val gson = GsonBuilder().create()
-                        val d = gson.fromJson(bodyResp, LoginResponseModel::class.java)
-
-                        // If there is an error in the response, exit
-                        if (d.error != null) {
-                            helper.showToast(this@LoginActivity, d.error)
-                            return@runOnUiThread
-                        }
 
                         // Else, we got the token
                         // Save in the storage
                         val sharedPref = getSharedPreferences(SHARED_PREF, 0)
                         sharedPref.edit().putBoolean(LOGIN_STATE, true).apply()
-                        sharedPref.edit().putString(ACCESS_TOKEN, d.token).apply()
+                        sharedPref.edit().putString(USER_ID, rawUserID.toString()).apply()
+                        sharedPref.edit().putString(USER_TYPE, usertype).apply()
 
                         // Call the new activity
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)

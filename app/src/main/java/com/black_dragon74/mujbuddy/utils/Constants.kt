@@ -3,7 +3,7 @@ package com.black_dragon74.mujbuddy.utils
 //
 // API URLs
 //
-const val API_URL = "https://dragon.strangebits.co.in/"
+const val API_URL = "https://dragon.sidsun.com/"
 
 
 //
@@ -70,3 +70,15 @@ const val EVENTS_DATA = "user_events"
 //  Internals container
 //
 const val INTERNALS_DATA = "user_internals"
+
+
+//
+//  User id container
+//
+const val USER_ID = "reg_no"
+
+
+//
+//  Usertype container
+//
+const val USER_TYPE = "c_type"

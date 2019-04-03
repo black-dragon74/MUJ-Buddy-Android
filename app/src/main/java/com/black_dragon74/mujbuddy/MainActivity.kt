@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.black_dragon74.mujbuddy.adapters.MenuAdapter
 import com.black_dragon74.mujbuddy.models.DashboardModel
 import com.black_dragon74.mujbuddy.utils.*
@@ -83,9 +82,11 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val token = helper.getToken() ?: return
+        val user = helper.getUserCredentials() ?: return
+        val userid = user.username
+        val usertype = user.usertype
         val client = OkHttpClient()
-        val request = Request.Builder().url("${API_URL}dashboard?token=$token").build()
+        val request = Request.Builder().url("${API_URL}dashboard?userid=$userid&usertype=$usertype").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 println("Reuqest failed.")
@@ -97,13 +98,12 @@ class MainActivity : AppCompatActivity() {
                 // Update dash details in the db
                 if (resp != null) {
                     helper.updateDashInDB(resp)
-                }
-
-                val parsed = gson.fromJson(resp, DashboardModel::class.java)
-                runOnUiThread{
-                    menuUserName.text = parsed.admDetails.name
-                    menuUserAcadYear.text = parsed.admDetails.acadYear
-                    menuUserProgram.text = parsed.admDetails.program
+                    val parsed = gson.fromJson(resp, DashboardModel::class.java)
+                    runOnUiThread{
+                        menuUserName.text = parsed.admDetails.name
+                        menuUserAcadYear.text = parsed.admDetails.acadYear
+                        menuUserProgram.text = parsed.admDetails.program
+                    }
                 }
             }
 

@@ -18,8 +18,8 @@
             android:ems="10"
             android:id="@+id/loginUserIDTF"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp" android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" android:hint="Enter DMS userid"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/parentLoginSwitch" android:hint="Enter DMS userid"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -28,9 +28,9 @@
             android:id="@+id/loginPasswordTF"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/loginUserIDTF" android:hint="Enter your password"/>
+            app:layout_constraintTop_toBottomOf="@+id/loginUserIDTF" android:hint="Enter any 4 digits"/>
     <Button
-            android:text="Log In"
+            android:text="STUDENT LOGIN"
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:id="@+id/loginSubmitBtn" app:layout_constraintStart_toStartOf="parent"
@@ -47,4 +47,11 @@
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
             android:textAlignment="center"/>
+    <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/parentLoginSwitch" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:text="Parent Login" android:switchPadding="10dp" android:textSize="18sp" android:textStyle="bold"/>
 </android.support.constraint.ConstraintLayout>

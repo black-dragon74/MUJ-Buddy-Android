@@ -76,7 +76,11 @@ class ResultsActivity : AppCompatActivity() {
         }
 
         // Else fire a request
-        val request = Request.Builder().url("${API_URL}results?token=${helper.getToken()}&semester=${helper.getCurrentSemester()}").build()
+        val user = helper.getUserCredentials() ?: return
+        val userid = user.username
+        val usertype = user.usertype
+
+        val request = Request.Builder().url("${API_URL}results?userid=$userid&usertype=$usertype&semester=${helper.getCurrentSemester()}").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
