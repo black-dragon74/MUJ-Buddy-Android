@@ -15,7 +15,6 @@ import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
     // Global vars
-    private val encryptor = Encryptor()
     private var parentLogin: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
