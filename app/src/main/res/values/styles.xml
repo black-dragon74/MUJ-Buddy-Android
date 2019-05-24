@@ -14,4 +14,13 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <!-- Style for the dark progress dialog -->
+    <style name="DarkProgressDialog" parent="Theme.AppCompat.Light.Dialog.Alert" xmlns:tools="http://schemas.android.com/tools">
+        <item name="android:textColor">@color/textPrimaryColor</item>
+        <item name="android:background">@color/backgroundColor</item>
+        <item name="android:textColorPrimary">@color/textPrimaryColor</item>
+        <item name="colorAccent">@color/textInfo</item>
+        <item name="android:colorAccent" tools:targetApi="m">@color/textInfo</item>
+    </style>
+
 </resources>

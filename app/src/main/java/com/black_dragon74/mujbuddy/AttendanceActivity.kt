@@ -30,7 +30,7 @@ class AttendanceActivity : AppCompatActivity() {
         supportActionBar?.title = "Attendance"
 
         // Show the progress loader
-        this.progressDialog = ProgressDialog(this)
+        this.progressDialog = ProgressDialog(this, R.style.DarkProgressDialog)
         progressDialog?.setMessage("Loading...")
         progressDialog?.setCanceledOnTouchOutside(false)
         progressDialog?.show()
@@ -76,11 +76,14 @@ class AttendanceActivity : AppCompatActivity() {
 
         // Else we will launch a HTTP request and will return the data from there
         val client = OkHttpClient()
-        val user = helper.getUserCredentials() ?: return
-        val userid = user.username
-        val usertype = user.usertype
+        val sessionID = helper.getSessionID()
 
-        val request = Request.Builder().url("${API_URL}attendance?userid=$userid&usertype=$usertype").build()
+        if (sessionID.isNullOrEmpty()) {
+            helper.showToast(this, "Invalid request, access denied.")
+            return
+        }
+
+        val request = Request.Builder().url("${API_URL}attendance?sessionid=$sessionID").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 println("Http request failed")

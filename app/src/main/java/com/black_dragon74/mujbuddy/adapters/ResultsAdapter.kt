@@ -24,7 +24,6 @@ class ResultsAdapter(val resultData: Array<ResultsModel>): RecyclerView.Adapter<
         val currentSub = resultData[position]
         parent.view.resultSubjectTF.text = currentSub.courseName
         parent.view.resultCourseCodeTF.text = currentSub.courseCode
-        parent.view.resultSessionTF.text = currentSub.academicSession
         parent.view.resultCreditsTF.text = currentSub.credits
         parent.view.resultGradeTF.text = currentSub.grade
     }

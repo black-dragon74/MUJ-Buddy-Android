@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.EventsAdapter
@@ -22,11 +23,13 @@ import java.lang.Exception
 class EventsActivity : AppCompatActivity() {
 
     private var progressDialog: ProgressDialog? = null
+    private var mAdapter: EventsAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events)
 
-        this.progressDialog = ProgressDialog(this)
+        this.progressDialog = ProgressDialog(this, R.style.DarkProgressDialog)
         progressDialog?.setMessage("Loading...")
         progressDialog?.setCanceledOnTouchOutside(false)
         progressDialog?.show()
@@ -41,6 +44,21 @@ class EventsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.generic_refresh_menu, menu)
+        menuInflater.inflate(R.menu.search, menu)
+
+        val item = menu?.findItem(R.id.menu_search)
+        val s = item?.actionView as SearchView
+        s.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                mAdapter?.filter?.filter(p0)
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                mAdapter?.filter?.filter(p0)
+                return false
+            }
+        })
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -69,7 +87,8 @@ class EventsActivity : AppCompatActivity() {
             // Set the adapter for the recycler view on the main thread also dismiss the progress dialog
             runOnUiThread {
                 progressDialog?.dismiss()
-                eventsRecyclerView.adapter = EventsAdapter(parsedData)
+                mAdapter = EventsAdapter(parsedData)
+                eventsRecyclerView.adapter = mAdapter
             }
 
             // Coz, Kuntal Mam says, exit jaroori hai
@@ -77,11 +96,14 @@ class EventsActivity : AppCompatActivity() {
         }
 
         // Else we will send the URL request
-        val user = helper.getUserCredentials() ?: return
-        val userid = user.username
-        val usertype = user.usertype
+        val sessionID = helper.getSessionID()
 
-        val request = Request.Builder().url("${API_URL}events?userid=$userid&usertype=$usertype").build()
+        if (sessionID.isNullOrEmpty()) {
+            helper.showToast(this, "Invalid request, access denied.")
+            return
+        }
+
+        val request = Request.Builder().url("${API_URL}events?sessionid=$sessionID").build()
 
         // Dispatch the request
         client.newCall(request).enqueue(object: Callback {
@@ -104,7 +126,8 @@ class EventsActivity : AppCompatActivity() {
                     // Set the adapter and dismiss the dialog
                     runOnUiThread {
                         progressDialog?.dismiss()
-                        eventsRecyclerView.adapter = EventsAdapter(parsedEvents)
+                        mAdapter = EventsAdapter(parsedEvents)
+                        eventsRecyclerView.adapter = mAdapter
                     }
                 }
                 catch (e: Exception) {

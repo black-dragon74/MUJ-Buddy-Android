@@ -37,10 +37,10 @@ class HelperFunctions(val context: Context) {
 
     fun getUserCredentials(): User? {
         val username = sharedPref.getString(USER_ID,  null)
-        val usertype = sharedPref.getString(USER_TYPE, null)
+        val password = sharedPref.getString(USER_PASS, null)
 
-        return when (username != null && usertype != null) {
-            true -> User(username, usertype)
+        return when (username != null && password != null) {
+            true -> User(username, password)
             false -> null
         }
     }
@@ -50,6 +50,10 @@ class HelperFunctions(val context: Context) {
         val intent = Intent(context, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(context, intent, null)
+    }
+
+    fun getSessionID(): String? {
+        return sharedPref.getString(SESSION_ID, null)
     }
 
     //

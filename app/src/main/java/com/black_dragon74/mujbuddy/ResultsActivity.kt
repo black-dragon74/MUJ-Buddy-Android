@@ -26,7 +26,7 @@ class ResultsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_results)
 
         // Pupulate the progress bar instance
-        this.progressDialog = ProgressDialog(this)
+        this.progressDialog = ProgressDialog(this, R.style.DarkProgressDialog)
         progressDialog?.setMessage("Loading...")
         progressDialog?.setCanceledOnTouchOutside(false)
         progressDialog?.show()
@@ -76,11 +76,14 @@ class ResultsActivity : AppCompatActivity() {
         }
 
         // Else fire a request
-        val user = helper.getUserCredentials() ?: return
-        val userid = user.username
-        val usertype = user.usertype
+        val sessionID = helper.getSessionID()
 
-        val request = Request.Builder().url("${API_URL}results?userid=$userid&usertype=$usertype&semester=${helper.getCurrentSemester()}").build()
+        if (sessionID.isNullOrEmpty()) {
+            helper.showToast(this, "Invalid request, access denied.")
+            return
+        }
+
+        val request = Request.Builder().url("${API_URL}results?sessionid=$sessionID&semester=${helper.getCurrentSemester()}").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {

@@ -6,12 +6,20 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import com.black_dragon74.mujbuddy.ContactInfoActivity
 import com.black_dragon74.mujbuddy.R
 import com.black_dragon74.mujbuddy.models.ContactsModel
 import kotlinx.android.synthetic.main.contacts_row.view.*
 
-class ContactsAdapter(val contactList: Array<ContactsModel>): RecyclerView.Adapter<ContactsViewHolder>() {
+class ContactsAdapter(val contactList: Array<ContactsModel>): RecyclerView.Adapter<ContactsViewHolder>(), Filterable {
+    private var contactSearchList: MutableList<ContactsModel>? = null
+
+    init {
+        this.contactSearchList = contactList.toMutableList()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val contactLayout = inflater.inflate(R.layout.contacts_row, parent, false)
@@ -19,14 +27,41 @@ class ContactsAdapter(val contactList: Array<ContactsModel>): RecyclerView.Adapt
     }
 
     override fun getItemCount(): Int {
-        return contactList.size
+        return contactSearchList!!.size
     }
 
     override fun onBindViewHolder(parent: ContactsViewHolder, position: Int) {
-        parent.view.contactTeacherName.text = contactList[position].name
-        parent.currentFaculty = contactList[position]
+        parent.view.contactTeacherName.text = contactSearchList!![position].name
+        parent.view.contactTeacherDepartment.text = contactSearchList!![position].department
+        parent.currentFaculty = contactSearchList!![position]
     }
 
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint.toString()
+                if (charString.isEmpty()) {
+                    contactSearchList = contactList.toMutableList()
+                } else {
+                    val filteredList = ArrayList<ContactsModel>()
+                    for (row in contactList) {
+                        if (row.name.toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row)
+                        }
+                    }
+                    contactSearchList = filteredList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = contactSearchList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                contactSearchList = results?.values as MutableList<ContactsModel>
+                notifyDataSetChanged()
+            }
+        }
+    }
 }
 
 class ContactsViewHolder(val view: View, var currentFaculty: ContactsModel? = null): RecyclerView.ViewHolder(view) {

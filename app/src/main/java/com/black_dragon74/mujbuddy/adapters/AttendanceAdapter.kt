@@ -23,12 +23,10 @@ class AttendanceAdapter(private val attendanceModel: Array<AttendanceModel>): Re
     override fun onBindViewHolder(parent: AttendanceViewHolder, positon: Int) {
         val currentAttendance = attendanceModel[positon]
         parent.view.attendanceSubjectTF.text = currentAttendance.course
-        parent.view.attendanceSectionTF.text = if (currentAttendance.section.isEmpty()) "NA" else currentAttendance.section
-        parent.view.attendanceBatchTF.text = if (currentAttendance.batch.isEmpty()) "NA" else currentAttendance.batch
         parent.view.attendancePresentTF.text = if (currentAttendance.present.isEmpty()) "NA" else currentAttendance.present
-        parent.view.attendanceTotalTF.text = currentAttendance.total
+        parent.view.attendanceTotalTF.text = "Total - ${currentAttendance.total}"
         parent.view.attendanceAbsentTF.text = if (currentAttendance.absent.isEmpty()) "NA" else currentAttendance.absent
-        parent.view.attendancePercentageTF.text = if (currentAttendance.total == "0") "0 %" else currentAttendance.percentage + " %"
+        parent.view.attendancePercentageTF.text = currentAttendance.percentage
     }
 
 }

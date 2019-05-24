@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_logout -> {
-                val aBuilder = AlertDialog.Builder(this)
+                val aBuilder = AlertDialog.Builder(this, R.style.DarkProgressDialog)
                 aBuilder.setTitle("Logout?")
                 aBuilder.setMessage("Are you sure you want to logout")
                 aBuilder.setPositiveButton("Yes") { dialog, _ ->
@@ -82,11 +82,14 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val user = helper.getUserCredentials() ?: return
-        val userid = user.username
-        val usertype = user.usertype
+        val sessionID = helper.getSessionID()
+
+        if (sessionID.isNullOrEmpty()) {
+            helper.showToast(this, "Invalid request, access denied.")
+            return
+        }
         val client = OkHttpClient()
-        val request = Request.Builder().url("${API_URL}dashboard?userid=$userid&usertype=$usertype").build()
+        val request = Request.Builder().url("${API_URL}dashboard?sessionid=$sessionID").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 println("Reuqest failed.")

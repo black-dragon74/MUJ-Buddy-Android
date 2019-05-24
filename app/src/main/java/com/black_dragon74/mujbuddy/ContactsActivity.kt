@@ -4,6 +4,8 @@ import android.app.ProgressDialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.ContactsAdapter
@@ -19,12 +21,15 @@ import java.lang.Exception
 class ContactsActivity : AppCompatActivity() {
     // Shared progress bar instance for this class
     private var progressDialog: ProgressDialog? = null
+
+    private var mAdapter: ContactsAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
 
         // Set the instance in global shared var
-        this.progressDialog = ProgressDialog(this)
+        this.progressDialog = ProgressDialog(this, R.style.DarkProgressDialog)
         progressDialog?.setMessage("Loading...")
         progressDialog?.setCanceledOnTouchOutside(false)
         progressDialog?.show()
@@ -34,12 +39,29 @@ class ContactsActivity : AppCompatActivity() {
         // Bind the recycler view
         contactsRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        contactsRecyclerView.adapter = mAdapter
+
         // Call the function and it'll handle the rest
         populateContactList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.generic_refresh_menu, menu)
+        menuInflater.inflate(R.menu.search, menu)
+
+        val item = menu?.findItem(R.id.menu_search)
+        val s: SearchView = item?.actionView as SearchView
+        s.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(p0: String?): Boolean {
+                mAdapter!!.filter.filter(p0)
+                return false
+            }
+
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                mAdapter!!.filter.filter(p0)
+                return false
+            }
+        })
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -65,18 +87,22 @@ class ContactsActivity : AppCompatActivity() {
             val parsed = json.fromJson(contactsInDB, Array<ContactsModel>::class.java)
             runOnUiThread {
                 progressDialog?.dismiss()
-                contactsRecyclerView.adapter = ContactsAdapter(parsed)
+                mAdapter = ContactsAdapter(parsed)
+                contactsRecyclerView.adapter = mAdapter
             }
             // Exit
             return
         }
 
         // Else send the request and try to parse the response
-        val user = helper.getUserCredentials() ?: return
-        val userid = user.username
-        val usertype = user.usertype
+        val sessionID = helper.getSessionID()
 
-        val request = Request.Builder().url("${API_URL}faculties?userid=$userid&usertype=$usertype").build()
+        if (sessionID.isNullOrEmpty()) {
+            helper.showToast(this, "Invalid request, access denied.")
+            return
+        }
+
+        val request = Request.Builder().url("${API_URL}faculties?sessionid=$sessionID").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
@@ -96,7 +122,8 @@ class ContactsActivity : AppCompatActivity() {
                     // Set the data
                     runOnUiThread {
                         progressDialog?.dismiss()
-                        contactsRecyclerView.adapter = ContactsAdapter(parsed)
+                        mAdapter = ContactsAdapter(parsed)
+                        contactsRecyclerView.adapter = mAdapter
                     }
                 }
                 catch (e: Exception) {

@@ -22,7 +22,7 @@ class FeeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fee)
 
-        this.progressDialog = ProgressDialog(this)
+        this.progressDialog = ProgressDialog(this, R.style.DarkProgressDialog)
         progressDialog?.setMessage("Loading...")
         progressDialog?.setCanceledOnTouchOutside(false)
         progressDialog?.show()
@@ -65,11 +65,14 @@ class FeeActivity : AppCompatActivity() {
         }
 
         // Else dispatch the request
-        val user = helper.getUserCredentials() ?: return
-        val userid = user.username
-        val usertype = user.usertype
+        val sessionID = helper.getSessionID()
 
-        val request = Request.Builder().url("${API_URL}feedetails?userid=$userid&usertype=$usertype").build()
+        if (sessionID.isNullOrEmpty()) {
+            helper.showToast(this, "Invalid request, access denied.")
+            return
+        }
+
+        val request = Request.Builder().url("${API_URL}feedetails?sessionid=$sessionID").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {

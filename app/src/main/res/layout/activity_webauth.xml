@@ -5,13 +5,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AttendanceActivity">
+        tools:context=".WebauthActivity">
 
-    <android.support.v7.widget.RecyclerView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+    <WebView
+            android:layout_width="395dp"
+            android:layout_height="715dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/attendanceRecyclerView"
-            android:background="@color/backgroundColor" android:scrollbars="vertical"/>
+            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/webauthView"
+            android:layout_marginTop="24dp"/>
 </android.support.constraint.ConstraintLayout>

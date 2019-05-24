@@ -23,7 +23,7 @@ class InternalsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_internals)
 
-        this.progressDialog = ProgressDialog(this)
+        this.progressDialog = ProgressDialog(this, R.style.DarkProgressDialog)
         progressDialog?.setMessage("Loading...")
         progressDialog?.setCanceledOnTouchOutside(false)
         progressDialog?.show()
@@ -73,11 +73,14 @@ class InternalsActivity : AppCompatActivity() {
         }
 
         // Else we will send the URL request
-        val user = helper.getUserCredentials() ?: return
-        val userid = user.username
-        val usertype = user.usertype
+        val sessionID = helper.getSessionID()
 
-        val request = Request.Builder().url("${API_URL}internals?userid=$userid&usertype=$usertype&semester=${helper.getCurrentSemester()}").build()
+        if (sessionID.isNullOrEmpty()) {
+            helper.showToast(this, "Invalid request, access denied.")
+            return
+        }
+
+        val request = Request.Builder().url("${API_URL}internals?sessionid=$sessionID&semester=${helper.getCurrentSemester()}").build()
 
         // Dispatch the request
         client.newCall(request).enqueue(object: Callback {

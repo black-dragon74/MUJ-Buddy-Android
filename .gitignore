@@ -8,6 +8,7 @@
 
 # Release Folder
 app/release
+app/debug
 
 # macOS Files
 .DS_Store

@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF9800</color>
-    <color name="colorPrimaryDark">#fb8c00</color>
+    <color name="colorPrimary">#1C1C1D</color>
+    <color name="colorPrimaryDark">#171717</color>
     <color name="colorAccent">#e65100</color>
     <color name="colorBackground">#EEEFF3</color>
     <color name="kindOfPurple">#1b2638</color>
+
+    <!-- Dark theme related colors -->
+    <color name="backgroundColor">#171717</color>
+    <color name="cardBackgroundColor">#1C1C1D</color>
+    <color name="textPrimaryColor">#FFFFFF</color>
+    <color name="textPrimaryLighterColor">#CBCBCB</color>
+
+    <color name="textInfo">#57A7FF</color>
+    <color name="textWarning">#FFB10B</color>
+    <color name="textSuccess">#35CD96</color>
+    <color name="textDanger">#FF4965</color>
 </resources>

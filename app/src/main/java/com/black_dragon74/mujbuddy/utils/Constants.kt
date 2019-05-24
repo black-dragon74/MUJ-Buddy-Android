@@ -15,7 +15,7 @@ const val SHARED_PREF = "default"
 // Login realted prefs
 //
 const val LOGIN_STATE = "login_state"   // If true, user is logged in else he has to login
-const val ACCESS_TOKEN = "access_token" // Contains the current token for making API calls
+const val SESSION_ID = "access_token" // Contains the current token for making API calls
 
 
 //
@@ -76,9 +76,22 @@ const val INTERNALS_DATA = "user_internals"
 //  User id container
 //
 const val USER_ID = "reg_no"
+const val USER_PASS= "sjx"
 
 
 //
 //  Usertype container
 //
 const val USER_TYPE = "c_type"
+
+
+//
+//  Login URL
+//
+const val LOGIN_URL = "https://dms.jaipur.manipal.edu/loginForm.aspx"
+
+
+//
+//  Confirmation URL, it only loads up when you have logged in successfully
+//
+const val CONF_URL = "https://dms.jaipur.manipal.edu/studentProfile.aspx"
