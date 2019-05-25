@@ -1,6 +1,7 @@
 package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -9,10 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.EventsAdapter
 import com.black_dragon74.mujbuddy.adapters.GPAAdapter
+import com.black_dragon74.mujbuddy.models.ErrorModel
 import com.black_dragon74.mujbuddy.models.EventsModel
 import com.black_dragon74.mujbuddy.models.GPAModel
 import com.black_dragon74.mujbuddy.utils.API_URL
 import com.black_dragon74.mujbuddy.utils.HelperFunctions
+import com.black_dragon74.mujbuddy.utils.LOGIN_FAILED
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_events.*
 import kotlinx.android.synthetic.main.activity_gpa.*
@@ -131,9 +134,28 @@ class EventsActivity : AppCompatActivity() {
                     }
                 }
                 catch (e: Exception) {
-                    runOnUiThread {
-                        progressDialog?.dismiss()
-                        helper.showToast(this@EventsActivity, "Unable to parse events")
+                    // Try and see if the reponse conforms to error model type
+                    try {
+                        val parsed = json.fromJson(respBody, ErrorModel::class.java)
+                        if (parsed.error == LOGIN_FAILED) {
+                            // Do something to reneew the login credentials
+                            progressDialog?.dismiss()
+                            val intent = Intent(this@EventsActivity, LoginActivity::class.java)
+                            intent.putExtra("reauth", true)
+                            startActivity(intent)
+                        }
+                        else {
+                            // Just show the error message
+                            runOnUiThread {
+                                helper.showToast(this@EventsActivity, parsed.error)
+                            }
+                        }
+                    }
+
+                    catch (e: Exception) {
+                        runOnUiThread {
+                            helper.showToast(this@EventsActivity, e.message ?: "Unable to show expcetion")
+                        }
                     }
                 }
             }

@@ -1,6 +1,7 @@
 package com.black_dragon74.mujbuddy.adapters
 
 import android.content.Intent
+import android.graphics.Color
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -22,6 +23,17 @@ class MenuAdapter: RecyclerView.Adapter<MenuViewHolder>() {
     private val item8 = MenuModel("Faculty Contacts", "At University")
     private val menuItems = listOf(item1, item2, item3, item4, item5, item6, item7, item8)
 
+    private val colors = listOf(
+        R.color.menu1,
+        R.color.menu2,
+        R.color.menu3,
+        R.color.menu4,
+        R.color.menu5,
+        R.color.menu6,
+        R.color.menu7,
+        R.color.menu8
+        )
+
     // This is cellForItemAtIndexPath
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
         // We have to inflate the layout for the cell
@@ -40,6 +52,7 @@ class MenuAdapter: RecyclerView.Adapter<MenuViewHolder>() {
         parent.view.textView2.text = currentMenuItem.title
         parent.view.textView.text = currentMenuItem.subtitle
         parent.view.imageView3.setImageResource(setImageUsing(currentMenuItem.title))
+        parent.view.menuCardView.setCardBackgroundColor(parent.view.context.resources.getColor(colors[position]))
     }
 
     private fun setImageUsing(itemID: String): Int {
@@ -99,7 +112,7 @@ class MenuViewHolder(val view: View): RecyclerView.ViewHolder(view) {
                 "Events" -> {
                     launchActivityFor(EventsActivity::class.java)
                 }
-                "Announcements" -> {
+                "Notifications" -> {
                     launchActivityFor(AnnouncementActivity::class.java)
                 }
                 "Fee Details" -> {

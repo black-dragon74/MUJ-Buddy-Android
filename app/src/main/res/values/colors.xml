@@ -17,4 +17,14 @@
     <color name="textWarning">#FFB10B</color>
     <color name="textSuccess">#35CD96</color>
     <color name="textDanger">#FF4965</color>
+
+    <!-- Menu colors -->
+    <color name="menu1">#F62A45</color>
+    <color name="menu2">#EE6E42</color>
+    <color name="menu3">#FA8C21</color>
+    <color name="menu4">#61CB42</color>
+    <color name="menu5">#45D3B4</color>
+    <color name="menu6">#7650E3</color>
+    <color name="menu7">#B54EDC</color>
+    <color name="menu8">#F36BAF</color>
 </resources>

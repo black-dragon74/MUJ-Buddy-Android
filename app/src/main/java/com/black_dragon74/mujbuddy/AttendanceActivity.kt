@@ -2,6 +2,7 @@ package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -9,8 +10,10 @@ import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.AttendanceAdapter
 import com.black_dragon74.mujbuddy.models.AttendanceModel
+import com.black_dragon74.mujbuddy.models.ErrorModel
 import com.black_dragon74.mujbuddy.utils.API_URL
 import com.black_dragon74.mujbuddy.utils.HelperFunctions
+import com.black_dragon74.mujbuddy.utils.LOGIN_FAILED
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_attendance.*
 import okhttp3.*
@@ -103,8 +106,28 @@ class AttendanceActivity : AppCompatActivity() {
                     runOnUiThread { attendanceRecyclerView.adapter = AttendanceAdapter(parsedResp) }
                 }
                 catch (e: Exception) {
-                    runOnUiThread {
-                        helper.showToast(this@AttendanceActivity, e.message ?: "Unable to show expcetion")
+                    // Try and see if the reponse conforms to error model type
+                    try {
+                        val parsed = gson.fromJson(respBody, ErrorModel::class.java)
+                        if (parsed.error == LOGIN_FAILED) {
+                            // Do something to reneew the login credentials
+                            progressDialog?.dismiss()
+                            val intent = Intent(this@AttendanceActivity, LoginActivity::class.java)
+                            intent.putExtra("reauth", true)
+                            startActivity(intent)
+                        }
+                        else {
+                            // Just show the error message
+                            runOnUiThread {
+                                helper.showToast(this@AttendanceActivity, parsed.error)
+                            }
+                        }
+                    }
+
+                    catch (e: Exception) {
+                        runOnUiThread {
+                            helper.showToast(this@AttendanceActivity, e.message ?: "Unable to show expcetion")
+                        }
                     }
                 }
             }

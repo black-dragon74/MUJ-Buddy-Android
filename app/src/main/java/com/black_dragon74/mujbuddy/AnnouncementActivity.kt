@@ -9,6 +9,6 @@ class AnnouncementActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_announcement)
 
-        supportActionBar?.title = "Announcements"
+        supportActionBar?.title = "Notifications"
     }
 }

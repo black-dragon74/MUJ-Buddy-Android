@@ -1,6 +1,7 @@
 package com.black_dragon74.mujbuddy.models
 
 class FeeModel(
+    val success: Boolean,
     val paid: PaidFee?,
     val unpaid: UnpaidFee?
 )

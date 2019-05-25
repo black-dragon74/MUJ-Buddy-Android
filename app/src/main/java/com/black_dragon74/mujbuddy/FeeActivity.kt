@@ -1,19 +1,23 @@
 package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.black_dragon74.mujbuddy.models.ErrorModel
 import com.black_dragon74.mujbuddy.models.FeeModel
 import com.black_dragon74.mujbuddy.utils.API_URL
 import com.black_dragon74.mujbuddy.utils.HelperFunctions
+import com.black_dragon74.mujbuddy.utils.LOGIN_FAILED
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_fee.*
 import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 
 class FeeActivity : AppCompatActivity() {
 
@@ -83,19 +87,45 @@ class FeeActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val respBody = response.body()?.string()
+                // First, try to decode using the error model
                 try {
-                    val parsed = json.fromJson(respBody, FeeModel::class.java)
-                    helper.setFeesInDB(respBody!!)
-                    runOnUiThread {
+                    val parsed = json.fromJson(respBody, ErrorModel::class.java)
+
+                    // As GSON and JSON parsing in android sucks, if the parsed error is null, throw the exception manually
+                    if (parsed.error == null) {
+                        throw IllegalArgumentException("Hmmm. Catch it boy!")
+                    }
+
+                    if (parsed.error == LOGIN_FAILED) {
+                        // Do something to reneew the login credentials
                         progressDialog?.dismiss()
-                        feePaidTF.text = if  (parsed.paid?.total == null) "Rs. 0.00" else "Rs. " + parsed.paid.total
-                        feeUnpaidTF.text = if  (parsed.unpaid?.total == null) "Rs. 0.00" else "Rs. " + parsed.unpaid.total
+                        val intent = Intent(this@FeeActivity, LoginActivity::class.java)
+                        intent.putExtra("reauth", true)
+                        startActivity(intent)
+                    }
+                    else {
+                        // Just show the error message
+                        runOnUiThread {
+                            helper.showToast(this@FeeActivity, parsed.error)
+                        }
                     }
                 }
-                catch (_: Exception) {
-                    runOnUiThread {
-                        progressDialog?.dismiss()
-                        helper.showToast(this@FeeActivity, "Unable to parse fee details")
+                catch (e: Exception) {
+                    // Now try to decode using the fee model
+                    try {
+                        val parsed = json.fromJson(respBody, FeeModel::class.java)
+                        helper.setFeesInDB(respBody!!)
+                        runOnUiThread {
+                            progressDialog?.dismiss()
+                            feePaidTF.text = if  (parsed.paid?.total == null) "Rs. 0.00" else "Rs. " + parsed.paid.total
+                            feeUnpaidTF.text = if  (parsed.unpaid?.total == null) "Rs. 0.00" else "Rs. " + parsed.unpaid.total
+                        }
+                    }
+
+                    catch (e: Exception) {
+                        runOnUiThread {
+                            helper.showToast(this@FeeActivity, e.message ?: "Unable to show expcetion")
+                        }
                     }
                 }
             }

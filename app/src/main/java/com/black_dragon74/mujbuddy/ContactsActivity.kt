@@ -1,6 +1,7 @@
 package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -10,8 +11,10 @@ import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.ContactsAdapter
 import com.black_dragon74.mujbuddy.models.ContactsModel
+import com.black_dragon74.mujbuddy.models.ErrorModel
 import com.black_dragon74.mujbuddy.utils.API_URL
 import com.black_dragon74.mujbuddy.utils.HelperFunctions
+import com.black_dragon74.mujbuddy.utils.LOGIN_FAILED
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_contacts.*
 import okhttp3.*
@@ -127,9 +130,28 @@ class ContactsActivity : AppCompatActivity() {
                     }
                 }
                 catch (e: Exception) {
-                    runOnUiThread {
-                        progressDialog?.dismiss()
-                        helper.showToast(this@ContactsActivity, e.localizedMessage)
+                    // Try and see if the reponse conforms to error model type
+                    try {
+                        val parsed = json.fromJson(respBody, ErrorModel::class.java)
+                        if (parsed.error == LOGIN_FAILED) {
+                            // Do something to reneew the login credentials
+                            progressDialog?.dismiss()
+                            val intent = Intent(this@ContactsActivity, LoginActivity::class.java)
+                            intent.putExtra("reauth", true)
+                            startActivity(intent)
+                        }
+                        else {
+                            // Just show the error message
+                            runOnUiThread {
+                                helper.showToast(this@ContactsActivity, parsed.error)
+                            }
+                        }
+                    }
+
+                    catch (e: Exception) {
+                        runOnUiThread {
+                            helper.showToast(this@ContactsActivity, e.message ?: "Unable to show expcetion")
+                        }
                     }
                 }
             }

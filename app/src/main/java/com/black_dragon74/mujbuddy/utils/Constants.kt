@@ -95,3 +95,9 @@ const val LOGIN_URL = "https://dms.jaipur.manipal.edu/loginForm.aspx"
 //  Confirmation URL, it only loads up when you have logged in successfully
 //
 const val CONF_URL = "https://dms.jaipur.manipal.edu/studentProfile.aspx"
+
+
+//
+//  Login failed message
+//
+const val LOGIN_FAILED = "Login failed"

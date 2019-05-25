@@ -1,20 +1,28 @@
 package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.GPAAdapter
+import com.black_dragon74.mujbuddy.models.ErrorModel
 import com.black_dragon74.mujbuddy.models.GPAModel
 import com.black_dragon74.mujbuddy.utils.API_URL
 import com.black_dragon74.mujbuddy.utils.HelperFunctions
+import com.black_dragon74.mujbuddy.utils.LOGIN_FAILED
+import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_gpa.*
 import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
+import com.google.gson.JsonParseException
+import java.lang.IllegalArgumentException
+
 
 class GPAActivity : AppCompatActivity() {
     private var progressDialog: ProgressDialog? = null
@@ -35,6 +43,7 @@ class GPAActivity : AppCompatActivity() {
 
         // Populate the GPA data
         populateGPA()
+        Log.e("NICK", HelperFunctions(this).getSessionID())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -95,23 +104,50 @@ class GPAActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val respBody = response.body()?.string()
-                // Try to decode using the GPA MODEL
+
                 try {
-                    val parsedGPA = json.fromJson(respBody, GPAModel::class.java)
+                    // Decode using the error model first
+                    val parsed = json.fromJson(respBody, ErrorModel::class.java)
 
-                    // If we are here means the JSON was parsed sucessfully, save in the DB too
-                    helper.setGPAInDB(respBody!!)
+                    // As GSON and JSON parsing in android sucks, if the parsed error is null, throw the exception manually
+                    if (parsed.error == null) {
+                        throw IllegalArgumentException("Hmmm. Catch it boy!")
+                    }
 
-                    // Set the adapter and dismiss the dialog
-                    runOnUiThread {
+                    if (parsed.error == LOGIN_FAILED) {
+                        // Do something to reneew the login credentials
                         progressDialog?.dismiss()
-                        gpaRecyclerView.adapter = GPAAdapter(parsedGPA)
+                        val intent = Intent(this@GPAActivity, LoginActivity::class.java)
+                        intent.putExtra("reauth", true)
+                        startActivity(intent)
+                    }
+                    else {
+                        // Just show the error message
+                        runOnUiThread {
+                            helper.showToast(this@GPAActivity, parsed.error)
+                        }
                     }
                 }
                 catch (e: Exception) {
-                    runOnUiThread {
-                        progressDialog?.dismiss()
-                        helper.showToast(this@GPAActivity, e.localizedMessage)
+                    // Now try to decode as GPA model
+                    try {
+                        val parsedGPA = json.fromJson(respBody, GPAModel::class.java)
+
+                        // If we are here means the JSON was parsed sucessfully, save in the DB too
+                        helper.setGPAInDB(respBody!!)
+
+                        // Set the adapter and dismiss the dialog
+                        runOnUiThread {
+                            progressDialog?.dismiss()
+                            gpaRecyclerView.adapter = GPAAdapter(parsedGPA)
+                        }
+                    }
+
+                    catch (e: Exception) {
+                        // Oh boy, this is something serious
+                        runOnUiThread {
+                            helper.showToast(this@GPAActivity, e.message ?: "Unable to show expcetion")
+                        }
                     }
                 }
             }

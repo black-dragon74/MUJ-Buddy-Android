@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.*
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
 import android.util.Log
 import android.widget.Toast
 import com.black_dragon74.mujbuddy.models.LoginResponseModel
@@ -32,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val helper = HelperFunctions(context!!)
             pd.dismiss()
-            helper.showToast(context, "Login cancelled by the user.")
+            helper.showToast(context, "Login cancelled by the user")
         }
     }
 
@@ -46,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
         registerReceiver(receiver, filter)
 
         // If user is logged in and credentials are there, send directly to the main activity
-        if (helper.isUserLoggedIn() && helper.getUserCredentials() != null) {
+        if (helper.isUserLoggedIn() && helper.getUserCredentials() != null && !intent.getBooleanExtra("reauth", false)) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -79,6 +80,18 @@ class LoginActivity : AppCompatActivity() {
             authIntent.putExtra(USER_ID, rawUserID)
             authIntent.putExtra(PASSWORD, rawPassword)
             startActivityForResult(authIntent, REQ_CODE)
+        }
+
+        // If the launching intent for this activity has the reauth in it, fill in the details
+        val launchingIntent = intent
+        if (launchingIntent.getBooleanExtra("reauth", false)) {
+            if (helper.isUserLoggedIn()) {
+                val currentUser = helper.getUserCredentials()
+                loginUserIDTF.setText(currentUser!!.username)
+                loginPasswordTF.setText(currentUser!!.usertype)
+                helper.showToast(this, "Session expired. Logging in again...")
+                loginSubmitBtn.performClick()
+            }
         }
     }
 
