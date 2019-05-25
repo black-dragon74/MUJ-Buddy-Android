@@ -23,6 +23,8 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         val pref = findPreference("current_semester")
         bindPreferenceSummaryToValue(pref)
         pref.summary = helper.getCurrentSemester()
+
+        helper.showToast(this, "Dark mode will be here soon. Sorry -_-")
     }
 
 

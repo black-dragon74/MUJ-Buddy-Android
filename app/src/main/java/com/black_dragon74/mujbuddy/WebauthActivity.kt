@@ -2,6 +2,7 @@ package com.black_dragon74.mujbuddy
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -30,6 +31,14 @@ class WebauthActivity : AppCompatActivity() {
         webauthView.settings.javaScriptEnabled = true
         webauthView.webViewClient = WebAuthDelegate()
         webauthView.loadUrl(LOGIN_URL)
+    }
+
+    override fun onBackPressed() {
+        // Now is the time to send the broadcast and de-register the receiver
+        val cancelled = Intent("com.mujbuddy.AUTH_CANCELLED")
+        sendBroadcast(cancelled)
+
+        super.onBackPressed()
     }
 
     // Coz Kotlin doesn't have the fancy delegation

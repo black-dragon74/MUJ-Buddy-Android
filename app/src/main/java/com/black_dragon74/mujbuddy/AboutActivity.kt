@@ -13,6 +13,6 @@ class AboutActivity : AppCompatActivity() {
         supportActionBar?.title = "About"
 
         aboutAppTF.text = getText(R.string.app_name)
-        aboutVersionTF.text = "Ver " + BuildConfig.VERSION_NAME
+        aboutVersionTF.text = "Ver ${BuildConfig.VERSION_NAME}"
     }
 }

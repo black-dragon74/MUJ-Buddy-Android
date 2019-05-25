@@ -17,7 +17,7 @@ class MenuAdapter: RecyclerView.Adapter<MenuViewHolder>() {
     private val item3 = MenuModel("Results", "Semester Results")
     private val item4 = MenuModel("GPA", "Your CGPA")
     private val item5 = MenuModel("Events", "At University")
-    private val item6 = MenuModel("Announcements", "For Events")
+    private val item6 = MenuModel("Notifications", "For Events")
     private val item7 = MenuModel("Fee Details", "Paid / Unpaid")
     private val item8 = MenuModel("Faculty Contacts", "At University")
     private val menuItems = listOf(item1, item2, item3, item4, item5, item6, item7, item8)
@@ -59,8 +59,8 @@ class MenuAdapter: RecyclerView.Adapter<MenuViewHolder>() {
             "Events" -> {
                 return R.drawable.events
             }
-            "Announcements" -> {
-                return R.drawable.announcements
+            "Notifications" -> {
+                return R.drawable.notifications
             }
             "Fee Details" -> {
                 return R.drawable.fees

@@ -3,11 +3,11 @@ package com.black_dragon74.mujbuddy
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toast
 import com.black_dragon74.mujbuddy.models.LoginResponseModel
 import com.black_dragon74.mujbuddy.utils.*
 import com.google.gson.GsonBuilder
@@ -22,14 +22,28 @@ class LoginActivity : AppCompatActivity() {
         val REQ_CODE = 9236
     }
     // Global vars
+    private lateinit var pd: ProgressDialog
     private var parentLogin: Boolean = false
     private var rawUserID: String? = null
     private  var rawPassword: String? = null
+
+    // Coz we need to do the operations in this contentxt, I've created an anonymous instance of the Receiver
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val helper = HelperFunctions(context!!)
+            pd.dismiss()
+            helper.showToast(context, "Login cancelled by the user.")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val helper = HelperFunctions(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        // Register the broadcast receiver
+        val filter = IntentFilter("com.mujbuddy.AUTH_CANCELLED")
+        registerReceiver(receiver, filter)
 
         // If user is logged in and credentials are there, send directly to the main activity
         if (helper.isUserLoggedIn() && helper.getUserCredentials() != null) {
@@ -48,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
             rawPassword = loginPasswordTF.text.toString()
 
             // Show a progress bar
-            val pd = ProgressDialog(this, R.style.DarkProgressDialog)
+            pd = ProgressDialog(this, R.style.DarkProgressDialog)
             pd.setMessage("Logging in..")
             pd.setCanceledOnTouchOutside(false)
             pd.show()
@@ -77,7 +91,7 @@ class LoginActivity : AppCompatActivity() {
                     // Failed
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Login Failed.")
-                    builder.setMessage("The login to portal was successful but the auth handshake failed. ")
+                    builder.setMessage("The login to portal was successful but auth handshake failed. ")
                     builder.setNegativeButton("Okay") {dialog, _ ->
                         dialog.dismiss()
                     }
@@ -98,5 +112,12 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Unregister the receiver
+        unregisterReceiver(receiver)
     }
 }

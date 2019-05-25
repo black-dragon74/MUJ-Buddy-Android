@@ -15,10 +15,18 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <receiver android:name="MUJReceiver">
+            <intent-filter>
+                <action android:name="com.mujbuddy.AUTH_CANCELLED">
+                </action>
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".WebauthActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:screenOrientation="portrait"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".AboutActivity">
             <meta-data
@@ -82,7 +90,7 @@
                 android:name=".LoginActivity"
                 android:configChanges="orientation|keyboardHidden"
                 android:screenOrientation="portrait"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
