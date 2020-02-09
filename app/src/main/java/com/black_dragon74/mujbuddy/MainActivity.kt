@@ -2,10 +2,10 @@ package com.black_dragon74.mujbuddy
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.GridLayoutManager
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.MenuAdapter
@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Set the adapter to the recycler view
-        menuRecyclerView.layoutManager = GridLayoutManager(this, 2, 1, false)
+        menuRecyclerView.layoutManager =
+            GridLayoutManager(this, 2, 1, false)
         menuRecyclerView.adapter = MenuAdapter()
 
         populateDash()
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val resp = response.body()?.string()
+                val resp = response.body?.string()
 
                 // Update dash details in the db
                 if (resp != null) {

@@ -2,9 +2,9 @@ package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -39,7 +39,8 @@ class GPAActivity : AppCompatActivity() {
         supportActionBar?.title = "CGPA Details"
 
         // Bind the recycler view
-        gpaRecyclerView.layoutManager = LinearLayoutManager(this)
+        gpaRecyclerView.layoutManager =
+            LinearLayoutManager(this)
 
         // Populate the GPA data
         populateGPA()
@@ -103,7 +104,7 @@ class GPAActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val respBody = response.body()?.string()
+                val respBody = response.body?.string()
 
                 try {
                     // Decode using the error model first

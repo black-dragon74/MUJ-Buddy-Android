@@ -3,9 +3,9 @@ package com.black_dragon74.mujbuddy
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.AttendanceAdapter
@@ -39,7 +39,8 @@ class AttendanceActivity : AppCompatActivity() {
         progressDialog?.show()
 
         // Bind the recycler view
-        attendanceRecyclerView.layoutManager = LinearLayoutManager(this)
+        attendanceRecyclerView.layoutManager =
+            LinearLayoutManager(this)
 
         // Fetch and populate the attendance
         populateAttendance(false)
@@ -97,11 +98,11 @@ class AttendanceActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val respBody = response.body()?.string()
+                val respBody = response.body?.string()
                 runOnUiThread { progressDialog?.dismiss() }
                 try {
                     val parsedResp = gson.fromJson(respBody, Array<AttendanceModel>::class.java)
-                    // If attendance is paresed successfully, update in the DB
+                    // If attendance is parsed successfully, update in the DB
                     helper.updateAttendanceInDB(respBody!!)
                     runOnUiThread { attendanceRecyclerView.adapter = AttendanceAdapter(parsedResp) }
                 }

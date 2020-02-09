@@ -2,10 +2,10 @@ package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.EventsAdapter
@@ -39,7 +39,8 @@ class EventsActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Upcoming Events"
 
-        eventsRecyclerView.layoutManager = LinearLayoutManager(this)
+        eventsRecyclerView.layoutManager =
+            LinearLayoutManager(this)
 
         // Call the function
         populateEvents()
@@ -118,7 +119,7 @@ class EventsActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val respBody = response.body()?.string()
+                val respBody = response.body?.string()
                 // Try to decode using the GPA MODEL
                 try {
                     val parsedEvents = json.fromJson(respBody, Array<EventsModel>::class.java)

@@ -2,7 +2,7 @@ package com.black_dragon74.mujbuddy
 
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.black_dragon74.mujbuddy.adapters.ContactsViewHolder
 import com.squareup.picasso.Picasso

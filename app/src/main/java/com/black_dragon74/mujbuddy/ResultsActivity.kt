@@ -2,9 +2,9 @@ package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.ResultsAdapter
@@ -38,7 +38,8 @@ class ResultsActivity : AppCompatActivity() {
         supportActionBar?.title = "Results"
 
         // Render the view
-        resultsRecyclerView.layoutManager = LinearLayoutManager(this)
+        resultsRecyclerView.layoutManager =
+            LinearLayoutManager(this)
 
         // Fetch the results and show it here
         populateResults()
@@ -96,7 +97,7 @@ class ResultsActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val respBody = response.body()?.string()
+                val respBody = response.body?.string()
                 try {
                     val parsed = json.fromJson(respBody, Array<ResultsModel>::class.java)
                     helper.setResultInDB(respBody!!)

@@ -2,9 +2,9 @@ package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.InternalsAdapter
@@ -33,7 +33,8 @@ class InternalsActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Internal Marks"
 
-        internalsRecyclerView.layoutManager = LinearLayoutManager(this)
+        internalsRecyclerView.layoutManager =
+            LinearLayoutManager(this)
 
         populateInternals()
     }
@@ -95,7 +96,7 @@ class InternalsActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val respBody = response.body()?.string()
+                val respBody = response.body?.string()
                 // Try to decode using the GPA MODEL
                 try {
                     val parsedInternals = json.fromJson(respBody, Array<InternalsModel>::class.java)

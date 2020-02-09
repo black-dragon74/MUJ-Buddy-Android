@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.preference.ListPreference
 import android.preference.Preference
 import android.view.MenuItem
-import android.support.v4.app.NavUtils
+import androidx.core.app.NavUtils
 import com.black_dragon74.mujbuddy.utils.HelperFunctions
 import com.black_dragon74.mujbuddy.utils.SHARED_PREF
 import com.black_dragon74.mujbuddy.utils.SEMESTER_DATA

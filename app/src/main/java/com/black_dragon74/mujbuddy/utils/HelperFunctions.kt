@@ -2,7 +2,7 @@ package com.black_dragon74.mujbuddy.utils
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
+import androidx.core.content.ContextCompat.startActivity
 import android.view.View
 import android.widget.Toast
 import com.black_dragon74.mujbuddy.LoginActivity

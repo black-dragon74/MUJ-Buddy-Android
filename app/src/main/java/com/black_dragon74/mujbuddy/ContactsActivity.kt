@@ -2,10 +2,10 @@ package com.black_dragon74.mujbuddy
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.SearchView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -40,7 +40,8 @@ class ContactsActivity : AppCompatActivity() {
         supportActionBar?.title = "Faculty Contacts"
 
         // Bind the recycler view
-        contactsRecyclerView.layoutManager = LinearLayoutManager(this)
+        contactsRecyclerView.layoutManager =
+            LinearLayoutManager(this)
 
         contactsRecyclerView.adapter = mAdapter
 
@@ -115,7 +116,7 @@ class ContactsActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val respBody = response.body()?.string()
+                val respBody = response.body?.string()
                 // Try to parse
                 try {
                     val parsed = json.fromJson(respBody, Array<ContactsModel>::class.java)
