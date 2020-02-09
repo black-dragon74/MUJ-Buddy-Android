@@ -26,7 +26,7 @@ class AttendanceAdapter(private val attendanceModel: Array<AttendanceModel>): Re
         parent.view.attendancePresentTF.text = if (currentAttendance.present.isEmpty()) "NA" else currentAttendance.present
         parent.view.attendanceTotalTF.text = "Total - ${currentAttendance.total}"
         parent.view.attendanceAbsentTF.text = if (currentAttendance.absent.isEmpty()) "NA" else currentAttendance.absent
-        parent.view.attendancePercentageTF.text = currentAttendance.percentage
+        parent.view.attendancePercentageTF.text = if (currentAttendance.percentage.isEmpty()) "NA" else currentAttendance.percentage
     }
 
 }

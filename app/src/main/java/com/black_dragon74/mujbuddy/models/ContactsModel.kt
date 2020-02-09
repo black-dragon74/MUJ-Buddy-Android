@@ -1,6 +1,6 @@
 package com.black_dragon74.mujbuddy.models
 
-class ContactsModel(
+data class ContactsModel(
     val name: String,
     val department: String,
     val phone: String,

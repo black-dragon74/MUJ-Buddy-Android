@@ -1,12 +1,12 @@
 package com.black_dragon74.mujbuddy.models
 
-class DashboardModel(
+data class DashboardModel(
     val admDetails: AdmDetails,
     val eduQualifications: Array<EduQualifications>,
     val parentDetails: ParentDetails
 )
 
-class EduQualifications(
+data class EduQualifications(
     val index: String,
     val obtainedMarks: String,
     val maxMarks: String,
@@ -17,14 +17,14 @@ class EduQualifications(
     val institution: String
 )
 
-class AdmDetails(
+data class AdmDetails(
     val name: String,
     val acadYear: String,
     val regNo: String,
     val program: String
 )
 
-class ParentDetails(
+data class ParentDetails(
     val mother: String,
     val father: String,
     val email: String,

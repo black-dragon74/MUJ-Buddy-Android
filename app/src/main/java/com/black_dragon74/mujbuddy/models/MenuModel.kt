@@ -1,6 +1,6 @@
 package com.black_dragon74.mujbuddy.models
 
-class MenuModel(
+data class MenuModel(
     val title: String,
     val subtitle: String
 )

@@ -1,6 +1,6 @@
 package com.black_dragon74.mujbuddy.models
 
-class AttendanceModel(
+data class AttendanceModel(
     val section: String,
     val present: String,
     val absent: String,

@@ -1,6 +1,6 @@
 package com.black_dragon74.mujbuddy.models
 
-class ResultsModel(
+data class ResultsModel(
     val index: String,
     val courseName: String,
     val courseCode: String,

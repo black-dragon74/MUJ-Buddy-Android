@@ -1,6 +1,6 @@
 package com.black_dragon74.mujbuddy.models
 
-class GPAModel(
+data class GPAModel(
     val success: Boolean,
     val semester_1: String?,
     val semester_2: String?,

@@ -1,6 +1,6 @@
 package com.black_dragon74.mujbuddy.models
 
-class InternalsModel(
+data class InternalsModel(
     val sno: String,
     val subject_codes: String,
     val cws: String?,
