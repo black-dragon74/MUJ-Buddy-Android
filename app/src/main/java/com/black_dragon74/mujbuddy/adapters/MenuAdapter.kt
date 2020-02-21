@@ -1,7 +1,6 @@
 package com.black_dragon74.mujbuddy.adapters
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -18,7 +17,7 @@ class MenuAdapter: RecyclerView.Adapter<MenuViewHolder>() {
     private val item3 = MenuModel("Results", "Semester Results")
     private val item4 = MenuModel("GPA", "Your CGPA")
     private val item5 = MenuModel("Events", "At University")
-    private val item6 = MenuModel("Notifications", "For Events")
+    private val item6 = MenuModel("Mess Menu", "For Hostelers")
     private val item7 = MenuModel("Fee Details", "Paid / Unpaid")
     private val item8 = MenuModel("Faculty Contacts", "At University")
     private val menuItems = listOf(item1, item2, item3, item4, item5, item6, item7, item8)
@@ -72,8 +71,8 @@ class MenuAdapter: RecyclerView.Adapter<MenuViewHolder>() {
             "Events" -> {
                 return R.drawable.events
             }
-            "Notifications" -> {
-                return R.drawable.notifications
+            "Mess Menu" -> {
+                return R.drawable.mess_menu
             }
             "Fee Details" -> {
                 return R.drawable.fees
@@ -112,8 +111,8 @@ class MenuViewHolder(val view: View): RecyclerView.ViewHolder(view) {
                 "Events" -> {
                     launchActivityFor(EventsActivity::class.java)
                 }
-                "Notifications" -> {
-                    launchActivityFor(AnnouncementActivity::class.java)
+                "Mess Menu" -> {
+                    launchActivityFor(MessMenuActivity::class.java)
                 }
                 "Fee Details" -> {
                     launchActivityFor(FeeActivity::class.java)

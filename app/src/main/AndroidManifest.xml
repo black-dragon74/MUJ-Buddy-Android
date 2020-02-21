@@ -24,6 +24,13 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name="MessMenuReceiver">
+            <intent-filter>
+                <action android:name="com.mujbuddy.MESS_MENU_FETCHED">
+                </action>
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".WebauthActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:screenOrientation="portrait"
@@ -57,7 +64,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainActivity"/>
         </activity>
-        <activity android:name=".AnnouncementActivity">
+        <activity android:name=".MessMenuActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainActivity"/>
