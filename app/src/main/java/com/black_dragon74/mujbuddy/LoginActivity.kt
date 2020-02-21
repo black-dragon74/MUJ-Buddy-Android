@@ -119,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
                     sharedPref.edit().putString(USER_PASS, rawPassword).apply()
 
                     // Now is the time to dismiss this activity and present the dashboard
+                    pd.dismiss()
                     val dashIntent = Intent(this, MainActivity::class.java)
                     dashIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(dashIntent)
