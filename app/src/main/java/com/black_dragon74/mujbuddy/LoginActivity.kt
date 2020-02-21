@@ -15,6 +15,8 @@ import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.*
 import java.io.IOException
+import java.util.*
+import kotlin.math.ceil
 
 class LoginActivity : AppCompatActivity() {
     companion object {
@@ -117,6 +119,33 @@ class LoginActivity : AppCompatActivity() {
                     sharedPref.edit().putString("reg_no", rawUserID).apply()
                     sharedPref.edit().putString(SESSION_ID, cookie).apply()
                     sharedPref.edit().putString(USER_PASS, rawPassword).apply()
+
+                    // Predict the semester
+                    val regNo = rawUserID!!
+
+                    // Get first two letters
+                    val regYear = "20" + regNo.subSequence(0, 2)
+
+                    // Create a new date
+                    val b = GregorianCalendar(regYear.toInt(), Calendar.JUNE, 1)
+                    val today = GregorianCalendar()
+                    today.time = Date()
+
+                    // Get difference
+                    val years = today.get(Calendar.YEAR) - b.get(Calendar.YEAR)
+                    val months = today.get(Calendar.MONTH) - b.get(Calendar.MONTH)
+
+                    // Get months
+                    val ageInMonths = years * 12 + months
+
+                    // Divide by 6.0 to retain floating point precision
+                    val result: Double = ageInMonths / 6.0
+
+                    // Ceil: aka, round away from zero aka to nearest greater value
+                    val sem = ceil(result).toInt()
+
+                    // Update the predicted semester in the DB
+                    HelperFunctions(this).setCurrentSemester(sem)
 
                     // Now is the time to dismiss this activity and present the dashboard
                     pd.dismiss()

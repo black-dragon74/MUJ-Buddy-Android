@@ -85,7 +85,7 @@ class HelperFunctions(val context: Context) {
     //
     fun setCurrentSemester(semester: Int) {
         sharedPref.edit().remove(SEMESTER_DATA).apply()
-        sharedPref.edit().putInt(SEMESTER_DATA, semester).apply()
+        sharedPref.edit().putString(SEMESTER_DATA, semester.toString()).apply()
     }
 
     fun getCurrentSemester(): String? {
