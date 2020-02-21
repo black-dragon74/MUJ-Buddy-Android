@@ -1,10 +1,14 @@
 package com.black_dragon74.mujbuddy
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import com.black_dragon74.mujbuddy.adapters.ContactsViewHolder
+import com.black_dragon74.mujbuddy.utils.HelperFunctions
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_contact_info.*
 
@@ -13,6 +17,8 @@ class ContactInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_info)
+
+        val helper = HelperFunctions(this)
 
         // Extract the values from the intent
         val intent = intent
@@ -37,15 +43,21 @@ class ContactInfoActivity : AppCompatActivity() {
         // Set the custom phone and email intent
         if (cinfoPhone.text != null && cinfoPhone.text != "NA") {
             cinfoPhone.setOnClickListener {
-                val callIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + cinfoPhone.text))
-                startActivity(Intent.createChooser(callIntent, "Call faculty"))
+                val callIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + cinfoPhone.text.trim()))
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // Show a toast that the permission is not granted and request for it
+                    helper.showToast(this, "Permission to call not granted. Please grant from settings.")
+                }
+                else {
+                    startActivity(callIntent)
+                }
             }
         }
 
         if (cinfoEmail.text != null && cinfoEmail.text != "NA") {
             cinfoEmail.setOnClickListener {
-                val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + cinfoEmail.text))
-                startActivity(Intent.createChooser(emailIntent, "Send email to faculty"))
+                val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + cinfoEmail.text.trim()))
+                startActivity(Intent.createChooser(emailIntent, "Email faculty using"))
             }
         }
     }
