@@ -164,10 +164,15 @@ class MainActivity : AppCompatActivity() {
         // Init the updater
         AppUpdater(this)
             .setUpdateFrom(UpdateFrom.JSON)
-            .setUpdateJSON("https://raw.githubusercontent.com/black-dragon74/MUJ-Buddy-Android/master/update.json")
-            .setTitleOnUpdateAvailable("MUJ Buddy update available")
+            .setUpdateJSON("https://raw.githubusercontent.com/black-dragon74/MUJ-Buddy-Updates/master/update.json")
+            .setTitleOnUpdateAvailable("Update available!")
             .setButtonDoNotShowAgain("")
             .setCancelable(false)
             .start()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        MessMenuActivity.needsRefresh = true
     }
 }
