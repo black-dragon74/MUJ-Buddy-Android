@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat
 import com.black_dragon74.mujbuddy.adapters.MenuAdapter
 import com.black_dragon74.mujbuddy.models.DashboardModel
 import com.black_dragon74.mujbuddy.utils.*
+import com.github.javiersantos.appupdater.AppUpdater
+import com.github.javiersantos.appupdater.enums.UpdateFrom
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         populateDash()
         checkAndRequestRequiredPermissions()
+        checkForUpdates()
     }
 
     // Inflate the menu layout file
@@ -155,5 +158,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun checkForUpdates() {
+        // Init the updater
+        AppUpdater(this)
+            .setUpdateFrom(UpdateFrom.JSON)
+            .setUpdateJSON("https://raw.githubusercontent.com/black-dragon74/MUJ-Buddy-Android/master/update.json")
+            .setTitleOnUpdateAvailable("MUJ Buddy update available")
+            .setButtonDoNotShowAgain("")
+            .setCancelable(false)
+            .start()
     }
 }

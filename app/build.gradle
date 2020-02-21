@@ -48,4 +48,5 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.3.1' // For HTTP requests
     implementation 'com.google.code.gson:gson:2.8.6'    // For JSON parsing
     implementation 'com.squareup.picasso:picasso:2.71828'   // For image loading / caching
+    implementation 'com.github.javiersantos:AppUpdater:2.7' // For app update notifications
 }
