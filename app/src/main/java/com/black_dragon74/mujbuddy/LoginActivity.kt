@@ -98,6 +98,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val cookie = data?.getStringExtra("cookie");
