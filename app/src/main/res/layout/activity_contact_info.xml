@@ -63,41 +63,41 @@
             <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp" app:srcCompat="@drawable/phone"
-                    android:id="@+id/imageView5" app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/cinfophone_icon" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" android:layout_marginTop="16dp"
                     app:layout_constraintTop_toTopOf="parent"/>
             <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp" app:srcCompat="@drawable/email"
-                    android:id="@+id/imageView6" app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/cinfoemail_icon" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView5"/>
+                    app:layout_constraintTop_toBottomOf="@+id/cinfophone_icon"/>
             <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp" app:srcCompat="@drawable/department"
                     android:id="@+id/imageView7" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView6"/>
+                    app:layout_constraintTop_toBottomOf="@+id/cinfoemail_icon"/>
             <TextView
                     android:text="+91-123456789"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/cinfoPhone"
                     android:textIsSelectable="true"
-                    app:layout_constraintStart_toEndOf="@+id/imageView5"
+                    app:layout_constraintStart_toEndOf="@+id/cinfophone_icon"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView5" android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/cinfophone_icon" android:textStyle="bold"
                     android:textColor="@color/textPrimaryColor" android:textSize="16sp"
-                    app:layout_constraintTop_toTopOf="@+id/imageView5"/>
+                    app:layout_constraintTop_toTopOf="@+id/cinfophone_icon"/>
             <TextView
                     android:text="someone@somemail.com"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="true"
                     android:id="@+id/cinfoEmail"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-                    app:layout_constraintStart_toEndOf="@+id/imageView6" android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toTopOf="@+id/imageView6" android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cinfoemail_icon"
+                    app:layout_constraintStart_toEndOf="@+id/cinfoemail_icon" android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="@+id/cinfoemail_icon" android:textSize="16sp"
                     android:textStyle="bold" android:textColor="@color/textPrimaryColor"/>
             <TextView
                     android:text="Some Boring Department"
