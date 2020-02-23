@@ -1,17 +1,13 @@
 package com.black_dragon74.mujbuddy
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.black_dragon74.mujbuddy.adapters.MenuAdapter
 import com.black_dragon74.mujbuddy.models.DashboardModel
 import com.black_dragon74.mujbuddy.utils.*
@@ -25,10 +21,6 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-    // Just to carry a few globally required vars
-    companion object {
-        const val CALL_PERMISSION_CODE = 2974
-    }
 
     // Will hold the application context
     private var context: Context? = null
@@ -43,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         menuRecyclerView.adapter = MenuAdapter()
 
         populateDash()
-        checkAndRequestRequiredPermissions()
         checkForUpdates()
     }
 
@@ -133,31 +124,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-    private fun checkAndRequestRequiredPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            // We need to ask for the permissions
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), CALL_PERMISSION_CODE)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        // Check if the permission was granted or not here
-        when (requestCode) {
-            CALL_PERMISSION_CODE -> {
-                val helper = HelperFunctions(this)
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Hooray! Go the permission
-                    helper.showToast(this, "You can now directly call faculties from the app")
-                }
-                else {
-                    helper.showToast(this, "You won't be able to directly call faculties from the app")
-                }
-            }
-        }
     }
 
     private fun checkForUpdates() {
