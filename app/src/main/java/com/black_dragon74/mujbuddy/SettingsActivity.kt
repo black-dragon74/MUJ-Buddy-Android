@@ -2,7 +2,6 @@ package com.black_dragon74.mujbuddy
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.Toast
 import androidx.annotation.Nullable
 import com.black_dragon74.mujbuddy.utils.HelperFunctions
 import com.black_dragon74.mujbuddy.utils.SEMESTER_DATA

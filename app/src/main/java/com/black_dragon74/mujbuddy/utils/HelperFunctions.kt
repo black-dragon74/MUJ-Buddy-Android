@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.black_dragon74.mujbuddy.LoginActivity
 import android.view.inputmethod.InputMethodManager
+import com.black_dragon74.mujbuddy.BuildConfig
 import com.black_dragon74.mujbuddy.models.User
 
 
@@ -47,6 +48,7 @@ class HelperFunctions(val context: Context) {
 
     fun doLogout() {
         sharedPref.edit().clear().apply()
+        context.getSharedPreferences("${BuildConfig.APPLICATION_ID}_preferences", 0).edit().clear().apply()
         val intent = Intent(context, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(context, intent, null)
