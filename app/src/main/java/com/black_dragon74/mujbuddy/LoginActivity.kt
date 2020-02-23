@@ -147,6 +147,7 @@ class LoginActivity : AppCompatActivity() {
 
                     // Update the predicted semester in the DB
                     HelperFunctions(this).setCurrentSemester(sem)
+                    getSharedPreferences("${BuildConfig.APPLICATION_ID}_preferences", 0).edit().putString("current_semester", sem.toString()).apply()
 
                     // Now is the time to dismiss this activity and present the dashboard
                     pd.dismiss()
