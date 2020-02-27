@@ -6,19 +6,14 @@ import android.app.ProgressDialog
 import android.content.*
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import android.text.Editable
-import android.util.Log
-import android.widget.Toast
-import com.black_dragon74.mujbuddy.models.LoginResponseModel
+import com.black_dragon74.mujbuddy.interfaces.LoginCancelledInterface
+import com.black_dragon74.mujbuddy.receivers.LoginCancelledReceiver
 import com.black_dragon74.mujbuddy.utils.*
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_login.*
-import okhttp3.*
-import java.io.IOException
 import java.util.*
 import kotlin.math.ceil
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginCancelledInterface {
     companion object {
         val USER_ID= "userid"
         val PASSWORD = "password"
@@ -31,18 +26,13 @@ class LoginActivity : AppCompatActivity() {
     private  var rawPassword: String? = null
 
     // Coz we need to do the operations in this contentxt, I've created an anonymous instance of the Receiver
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val helper = HelperFunctions(context!!)
-            pd.dismiss()
-            helper.showToast(context, "Login cancelled by the user")
-        }
-    }
+    private val receiver = LoginCancelledReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val helper = HelperFunctions(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        receiver.delegate = this
 
         // Register the broadcast receiver
         val filter = IntentFilter("com.mujbuddy.AUTH_CANCELLED")
@@ -164,5 +154,11 @@ class LoginActivity : AppCompatActivity() {
 
         // Unregister the receiver
         unregisterReceiver(receiver)
+    }
+
+    override fun onLoginCancelled(context: Context?) {
+        val helper = HelperFunctions(context!!)
+        pd.dismiss()
+        helper.showToast(context, "Login cancelled by the user")
     }
 }

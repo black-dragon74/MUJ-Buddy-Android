@@ -16,14 +16,14 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <receiver android:name="MUJReceiver">
+        <receiver android:name=".receivers.LoginCancelledReceiver">
             <intent-filter>
                 <action android:name="com.mujbuddy.AUTH_CANCELLED">
                 </action>
             </intent-filter>
         </receiver>
 
-        <receiver android:name="MessMenuReceiver">
+        <receiver android:name=".receivers.MessMenuReceiver">
             <intent-filter>
                 <action android:name="com.mujbuddy.MESS_MENU_FETCHED">
                 </action>
