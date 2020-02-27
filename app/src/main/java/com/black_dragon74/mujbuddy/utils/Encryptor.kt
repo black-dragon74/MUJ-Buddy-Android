@@ -35,4 +35,16 @@ class Encryptor {
 
         return Base64.encodeToString(encryptedBytes, Base64.DEFAULT)
     }
+
+    // Decrypt a message
+    fun decrypt(message: String, key: String = pKey): String {
+        val decryptedBytes: ByteArray
+        val pubKey: PublicKey? = key.toPublicKey()
+        val cipher = Cipher.getInstance(CRYPTO_TRANSFORM)
+
+        cipher.init(Cipher.DECRYPT_MODE, pubKey)
+        decryptedBytes = cipher.doFinal(message.toByteArray(Charsets.UTF_8))
+
+        return String(decryptedBytes)
+    }
 }
