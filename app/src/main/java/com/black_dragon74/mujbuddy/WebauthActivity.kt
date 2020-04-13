@@ -2,15 +2,12 @@ package com.black_dragon74.mujbuddy
 
 import android.app.Activity
 import android.content.Intent
-import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.webkit.*
 import com.black_dragon74.mujbuddy.utils.CONF_URL
 import com.black_dragon74.mujbuddy.utils.LOGIN_URL
 import kotlinx.android.synthetic.main.activity_webauth.*
-import okhttp3.Cookie
 
 class WebauthActivity : AppCompatActivity() {
 
@@ -68,6 +65,15 @@ class WebauthActivity : AppCompatActivity() {
                     view?.settings?.javaScriptEnabled = true
                     view?.evaluateJavascript("document.getElementById('txtUserid').value = '$userid'", null)
                     view?.evaluateJavascript("document.getElementById('txtpassword').value = '$password'", null)
+
+                    // And in special cases, try to bypass the login and see if it succeeds
+                    view?.evaluateJavascript(
+                        "document.getElementById('labelerror').innerHTML === 'Your daily login attempt exceded'"
+                    ) { evalResult ->
+                        if (evalResult == "true") {
+                            view.loadUrl(CONF_URL)
+                        }
+                    }
                 }
             }
         }
