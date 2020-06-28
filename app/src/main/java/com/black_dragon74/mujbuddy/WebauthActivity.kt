@@ -41,8 +41,11 @@ class WebauthActivity : AppCompatActivity() {
     // Coz Kotlin doesn't have the fancy delegation
     private inner class WebAuthDelegate: WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            view?.loadUrl(url)
-            return true
+            if (!url.isNullOrEmpty()) {
+                view?.loadUrl(url)
+                return true
+            }
+            return false
         }
 
         override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {

@@ -28,10 +28,10 @@ class ContactInfoActivity : AppCompatActivity() {
 
         // Set the values in the view
         cinfoName.text = name
-        cinfoEmail.text = if (email.isEmpty()) "NA" else email
-        cinfoPhone.text = if (phone.isEmpty()) "NA" else phone
+        cinfoEmail.text = if (email.isNullOrEmpty()) "NA" else email
+        cinfoPhone.text = if (phone.isNullOrEmpty()) "NA" else phone
         cinfoDesignation.text = designation
-        cinfoDepartment.text = if (department.isEmpty()) "NA" else department
+        cinfoDepartment.text = if (department.isNullOrEmpty()) "NA" else department
         Picasso.get().load(image).into(cinfoImage)
 
         cinfoPhone.setOnClickListener {

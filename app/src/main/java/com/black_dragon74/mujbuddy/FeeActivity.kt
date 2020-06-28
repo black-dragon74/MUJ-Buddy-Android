@@ -41,8 +41,8 @@ class FeeActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.generic_refresh -> {
                 progressDialog?.setMessage("Refreshing...")
                 progressDialog?.show()

@@ -50,8 +50,8 @@ class ResultsActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.generic_refresh -> {
                 // Handle refresh
                 progressDialog?.setMessage("Refreshing....")

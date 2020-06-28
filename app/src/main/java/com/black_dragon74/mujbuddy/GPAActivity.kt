@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.black_dragon74.mujbuddy.adapters.GPAAdapter
@@ -14,13 +13,11 @@ import com.black_dragon74.mujbuddy.models.GPAModel
 import com.black_dragon74.mujbuddy.utils.API_URL
 import com.black_dragon74.mujbuddy.utils.HelperFunctions
 import com.black_dragon74.mujbuddy.utils.LOGIN_FAILED
-import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_gpa.*
 import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
-import com.google.gson.JsonParseException
 import java.lang.IllegalArgumentException
 
 
@@ -44,7 +41,6 @@ class GPAActivity : AppCompatActivity() {
 
         // Populate the GPA data
         populateGPA()
-        Log.e("NICK", HelperFunctions(this).getSessionID())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -52,8 +48,8 @@ class GPAActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.generic_refresh -> {
                 progressDialog?.setMessage("Refreshing...")
                 progressDialog?.show()

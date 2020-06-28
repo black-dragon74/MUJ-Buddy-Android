@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.menu_logout -> {
                 val aBuilder = AlertDialog.Builder(this, R.style.DarkProgressDialog)
                 aBuilder.setTitle("Logout?")
