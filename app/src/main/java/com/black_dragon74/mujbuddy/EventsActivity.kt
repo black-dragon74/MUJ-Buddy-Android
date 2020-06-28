@@ -149,6 +149,7 @@ class EventsActivity : AppCompatActivity() {
                             // Just show the error message
                             runOnUiThread {
                                 helper.showToast(this@EventsActivity, parsed.error)
+                                progressDialog?.dismiss()
                             }
                         }
                     }

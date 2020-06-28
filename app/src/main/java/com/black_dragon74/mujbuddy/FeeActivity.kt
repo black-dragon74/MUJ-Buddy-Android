@@ -107,6 +107,7 @@ class FeeActivity : AppCompatActivity() {
                         // Just show the error message
                         runOnUiThread {
                             helper.showToast(this@FeeActivity, parsed.error)
+                            progressDialog?.dismiss()
                         }
                     }
                 }

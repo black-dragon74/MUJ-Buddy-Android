@@ -122,6 +122,7 @@ class GPAActivity : AppCompatActivity() {
                         // Just show the error message
                         runOnUiThread {
                             helper.showToast(this@GPAActivity, parsed.error)
+                            progressDialog?.dismiss()
                         }
                     }
                 }

@@ -145,6 +145,7 @@ class ContactsActivity : AppCompatActivity() {
                             // Just show the error message
                             runOnUiThread {
                                 helper.showToast(this@ContactsActivity, parsed.error)
+                                progressDialog?.dismiss()
                             }
                         }
                     }

@@ -121,6 +121,7 @@ class AttendanceActivity : AppCompatActivity() {
                             // Just show the error message
                             runOnUiThread {
                                 helper.showToast(this@AttendanceActivity, parsed.error)
+                                progressDialog?.dismiss()
                             }
                         }
                     }

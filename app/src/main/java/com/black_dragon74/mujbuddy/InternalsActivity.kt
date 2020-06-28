@@ -125,6 +125,7 @@ class InternalsActivity : AppCompatActivity() {
                             // Just show the error message
                             runOnUiThread {
                                 helper.showToast(this@InternalsActivity, parsed.error)
+                                progressDialog?.dismiss()
                             }
                         }
                     }
