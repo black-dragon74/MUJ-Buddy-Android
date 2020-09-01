@@ -21,6 +21,7 @@ class LoginActivity : AppCompatActivity(), LoginCancelledInterface {
     }
     // Global vars
     private lateinit var pd: ProgressDialog
+    private var useAltLogin: Boolean = false
     private var parentLogin: Boolean = false
     private var rawUserID: String? = null
     private  var rawPassword: String? = null
@@ -43,6 +44,14 @@ class LoginActivity : AppCompatActivity(), LoginCancelledInterface {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
+        }
+
+        // Set the switch state
+        useAltLogin = helper.shouldUseCaptcha()
+        useInAppCaptcha.isChecked = useAltLogin
+        useInAppCaptcha.setOnCheckedChangeListener { _, isChecked ->
+            helper.setUseCaptcha(isChecked)
+            useAltLogin = isChecked
         }
 
         // Set an onclick listener to the login button
@@ -68,7 +77,11 @@ class LoginActivity : AppCompatActivity(), LoginCancelledInterface {
             }
 
             // Now we need to open the webauth activity and also send a few params along
-            val authIntent = Intent(this, WebauthActivity::class.java)
+            val authIntent = if (useAltLogin) {
+                Intent(this, CaptchaAuthActivity::class.java)
+            } else {
+                Intent(this, WebauthActivity::class.java)
+            }
             authIntent.putExtra(USER_ID, rawUserID)
             authIntent.putExtra(PASSWORD, rawPassword)
             startActivityForResult(authIntent, REQ_CODE)
@@ -145,6 +158,14 @@ class LoginActivity : AppCompatActivity(), LoginCancelledInterface {
                     dashIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(dashIntent)
                 }
+            }
+
+            if (resultCode == 5644) {
+                pd.dismiss()
+                HelperFunctions(this).showToast(this, "Invalid username or password supplied")
+                loginUserIDTF.text = null
+                loginPasswordTF.text = null
+                loginUserIDTF.requestFocus()
             }
         }
     }

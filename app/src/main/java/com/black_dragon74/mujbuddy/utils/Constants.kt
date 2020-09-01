@@ -101,3 +101,8 @@ const val CONF_URL = "https://dms.jaipur.manipal.edu/studentProfile.aspx"
 //  Login failed message
 //
 const val LOGIN_FAILED = "Login failed"
+
+//
+//  In app captcha key
+//
+const val IN_APP_CAPTCHA = "enable_in_app_captcha"

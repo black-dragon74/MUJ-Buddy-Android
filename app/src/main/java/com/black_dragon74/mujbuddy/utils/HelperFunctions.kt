@@ -59,6 +59,18 @@ class HelperFunctions(val context: Context) {
     }
 
     //
+    //  In app captcha auth related functions
+    //
+    fun shouldUseCaptcha(): Boolean {
+        return sharedPref.getBoolean(IN_APP_CAPTCHA, true)
+    }
+
+    fun setUseCaptcha(to: Boolean) {
+        sharedPref.edit().remove(IN_APP_CAPTCHA).apply()
+        sharedPref.edit().putBoolean(IN_APP_CAPTCHA, to).apply()
+    }
+
+    //
     //  Dashboard related functions
     //
     fun updateDashInDB(data: String) {
