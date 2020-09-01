@@ -130,7 +130,6 @@ class CaptchaAuthActivity : AppCompatActivity() {
 
         // Form the URL
         val authURL = "${API_URL}captcha_auth?sessionid=${sessionID}&username=${username}&password=${URLEncoder.encode(password)}&captcha=${captcha}"
-        Log.e("MUJ_BUDDY", authURL)
 
         // Spin the progress bar
         pd.setMessage("Logging in...")
@@ -166,7 +165,6 @@ class CaptchaAuthActivity : AppCompatActivity() {
                         runOnUiThread {
                             pd.dismiss()
                         }
-                        Log.e("MUJ_BUDDY", respBody ?: "")
                         setResult(5644, intent)
                         finish()
                     }
