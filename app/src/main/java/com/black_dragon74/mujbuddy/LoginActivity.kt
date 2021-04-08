@@ -47,6 +47,7 @@ class LoginActivity : AppCompatActivity(), LoginCancelledInterface {
         }
 
         // Set the switch state
+        useInAppCaptcha.isEnabled = false
         useAltLogin = helper.shouldUseCaptcha()
         useInAppCaptcha.isChecked = useAltLogin
         useInAppCaptcha.setOnCheckedChangeListener { _, isChecked ->
