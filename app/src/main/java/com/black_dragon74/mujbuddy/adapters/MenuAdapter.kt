@@ -16,20 +16,18 @@ class MenuAdapter: RecyclerView.Adapter<MenuViewHolder>() {
     private val item2 = MenuModel("Internals", "Assessment Marks")
     private val item3 = MenuModel("Results", "Semester Results")
     private val item4 = MenuModel("GPA", "Your CGPA")
-    private val item5 = MenuModel("Events", "At University")
+//    private val item5 = MenuModel("Events", "At University")
     private val item6 = MenuModel("Mess Menu", "For Hostelers")
-    private val item7 = MenuModel("Fee Details", "Paid / Unpaid")
+//    private val item7 = MenuModel("Fee Details", "Paid / Unpaid")
     private val item8 = MenuModel("Faculty Contacts", "At University")
-    private val menuItems = listOf(item1, item2, item3, item4, item5, item6, item7, item8)
+    private val menuItems = listOf(item1, item2, item3, item4, item6, item8)
 
     private val colors = listOf(
         R.color.menu1,
         R.color.menu2,
         R.color.menu3,
         R.color.menu4,
-        R.color.menu5,
         R.color.menu6,
-        R.color.menu7,
         R.color.menu8
         )
 
