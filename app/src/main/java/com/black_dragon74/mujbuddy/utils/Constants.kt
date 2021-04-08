@@ -3,7 +3,7 @@ package com.black_dragon74.mujbuddy.utils
 //
 // API URLs
 //
-const val API_URL = "https://dragon.sidsun.com/"
+const val API_URL = "https://dmsapi.nicksuniversum.com/"
 
 
 //
