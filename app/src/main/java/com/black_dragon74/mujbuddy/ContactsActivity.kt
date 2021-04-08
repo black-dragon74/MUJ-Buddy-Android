@@ -106,7 +106,7 @@ class ContactsActivity : AppCompatActivity() {
             return
         }
 
-        val request = Request.Builder().url("${API_URL}faculties?sessionid=$sessionID").build()
+        val request = Request.Builder().url("${API_URL}contacts?sessionid=$sessionID").build()
         client.newCall(request).enqueue(object: Callback{
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
